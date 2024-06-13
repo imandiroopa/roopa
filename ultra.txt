@@ -1,0 +1,42 @@
+#define LED_PIN 2 // Define the pin for the LED
+#define TRIGGER_PIN 12 // Define the trigger pin for the ultrasonic sensor
+#define ECHO_PIN 13 // Define the echo pin for the ultrasonic sensor
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT); // Set the LED pin as an output
+  pinMode(TRIGGER_PIN, OUTPUT); // Set the trigger pin as an output
+  pinMode(ECHO_PIN, INPUT); // Set the echo pin as an input
+  
+  Serial.begin(9600); // Initialize serial communication for debugging
+}
+
+void loop() {
+  // Trigger ultrasonic sensor
+  digitalWrite(TRIGGER_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIGGER_PIN, LOW);
+  
+  // Measure the echo pulse width
+  long duration = pulseIn(ECHO_PIN, HIGH);
+  
+  // Calculate distance in centimeters
+  int distance = duration * 0.034 / 2;
+  
+  // Print distance for debugging
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  
+  // Check if an obstacle is within 50cm
+  if (distance < 50) {
+    digitalWrite(LED_PIN, HIGH); // Turn on the LED if obstacle is detected
+  } else {
+    digitalWrite(LED_PIN, LOW); // Turn off the LED if no obstacle is detected
+  }
+  
+  delay(100); // Wait for a short time before next reading
+}
+
+
