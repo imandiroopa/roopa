@@ -1,0 +1,21 @@
+import machine
+import time
+
+# Set up the LDR sensor pin as an input
+ldr_pin = machine.Pin(26, machine.Pin.IN)
+
+# Set up the ADC object
+adc = machine.ADC(ldr_pin)
+
+while True:
+    # Read the value from the ADC
+    ldr_value = adc.read_u16()
+
+    # Convert the value to a voltage
+    ldr_voltage = ldr_value * 3.3 / 65535
+
+    # Print the voltage
+    print('LDR voltage: {:.2f} V'.format(ldr_voltage))
+
+    # Wait for a short period of time before checking again
+    time.sleep(0.1)
