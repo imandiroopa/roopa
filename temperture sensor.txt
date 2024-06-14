@@ -1,0 +1,22 @@
+import machine
+import time
+
+# Set up the DS18B20 sensor pin as an input
+ds_pin = machine.Pin(26, machine.Pin.IN)
+
+# Set up the OneWire and DS18X20 objects
+ow = machine.Onewire(ds_pin)
+ds = machine.DS18X20(ow)
+
+# Wait for the sensor to be ready
+while True:
+    if ds.scan():
+        break
+    time.sleep(1)
+
+# Get the temperature from the sensor
+while True:
+    temp = ds.temperature()
+    print('Temperature: {:.2f} °C'.format(temp / 100.0))
+    time.sleep(1)
+
